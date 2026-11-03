@@ -11,6 +11,7 @@ winget install -e --id Python.Python.3.12
 
 三、启动
 Windows：双击“启动程序.bat”，首次联网安装依赖。
+如果虚拟环境中的pip缺失或损坏，会自动使用Python自带安装包离线修复。
 macOS/Linux：在程序目录运行 bash start.sh。
 
 四、使用

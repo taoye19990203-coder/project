@@ -2,20 +2,20 @@
 chcp 65001 >nul
 cd /d "%~dp0"
 where py >nul 2>nul
-if errorlevel 1 (
-  echo 请先安装 Python 3.10 或以上版本，并启用 Python Launcher。
-  pause
-  exit /b 1
-)
-if not exist .venv\Scripts\python.exe py -3 -m venv .venv
-.venv\Scripts\python.exe -c "import docx, openpyxl" >nul 2>nul
-if errorlevel 1 (
-  .venv\Scripts\python.exe -m pip install -r requirements.txt
-  if errorlevel 1 (
-    echo 依赖安装失败，请检查网络后重试。
-    pause
-    exit /b 1
-  )
-)
-.venv\Scripts\python.exe app.py
+if errorlevel 1 goto use_python
+py -3 bootstrap.py
+set "audit_exit=%errorlevel%"
+goto finished
+:use_python
+where python >nul 2>nul
+if errorlevel 1 goto missing_python
+python bootstrap.py
+set "audit_exit=%errorlevel%"
+goto finished
+:missing_python
+echo 请先安装 Python 3.10 或以上版本。
+set "audit_exit=1"
+:finished
+if not "%audit_exit%"=="0" echo 启动未完成，请查看上方具体错误信息。
 pause
+exit /b %audit_exit%
