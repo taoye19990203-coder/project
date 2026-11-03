@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+outputs/
+# Local audit documents and generated reports must never be uploaded.
+/templates/
+/examples/
+*.docx
+*.xlsx
+*.xls
+*.pdf
+*.zip
+*.json
